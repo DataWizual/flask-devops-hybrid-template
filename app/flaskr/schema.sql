@@ -1,0 +1,16 @@
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS post;
+
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    username TEXT UNIQUE NOT NULL,
+    password TEXT NOT NULL
+);
+
+CREATE TABLE post (
+    id SERIAL PRIMARY KEY,
+    author_id INTEGER NOT NULL REFERENCES users (id),
+    created TIMESTAMP NOT NULL DEFAULT NOW(),
+    title TEXT NOT NULL,
+    body TEXT NOT NULL
+);
