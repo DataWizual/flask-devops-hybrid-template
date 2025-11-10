@@ -1,0 +1,26 @@
+name: CD — Auto Deploy to Multipass
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Deploy to Multipass via SSH
+        uses: appleboy/ssh-action@v1.1.0
+        with:
+          host: ${{ secrets.MULTIPASS_HOST }}
+          username: ${{ secrets.MULTIPASS_USER }}
+          key: ${{ secrets.MULTIPASS_SSH_KEY }}
+          script: |
+            cd ~/flask-devops-template-pro/app
+            sudo docker compose pull web
+            sudo docker compose up -d web
+            sudo docker system prune -f
