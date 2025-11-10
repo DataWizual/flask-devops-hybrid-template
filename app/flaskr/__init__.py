@@ -1,5 +1,7 @@
 import os
 from flask import Flask
+from prometheus_flask_exporter import PrometheusMetrics
+
 
 def create_app(test_config=None):
     """Create and configure an instance of the Flask application."""
@@ -43,5 +45,9 @@ def create_app(test_config=None):
 
     # main index
     app.add_url_rule("/", endpoint="index")
-
+    
+    # Enable Prometheus metrics
+    metrics = PrometheusMetrics(app)
+    metrics.info('app_info', 'Application info', version='1.0.0')
+    
     return app

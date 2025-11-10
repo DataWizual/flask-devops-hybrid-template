@@ -1,7 +1,7 @@
 services:
   web:
     build: ./app
-    container_name: flaskr_app
+    container_name: web
     ports:
       - "5000:5000"
     environment:
@@ -23,3 +23,8 @@ services:
 
 volumes:
   pg_data:
+
+networks:
+  default:
+    name: devops_net
+    external: true
